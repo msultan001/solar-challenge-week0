@@ -45,3 +45,29 @@ It demonstrates environment setup, dependency management, and reproducible devel
    ```
 
 
+---
+
+## 📓 Notebooks Description
+
+- **Benin, Sierra Leone, Togo EDA notebooks** (`benin_eda.ipynb`, etc.): Perform exploratory data analysis, cleaning, and visualization on country-specific solar datasets.
+- **compare_countries.ipynb**: Synthesizes cleaned datasets from Benin, Sierra Leone, and Togo to analyze and compare solar potential across countries. Includes visualizations (boxplots, summary tables, and bar charts), statistical testing (ANOVA, Kruskal-Wallis), and key observations to highlight significant differences in solar metrics.
+
+
+## 📁 Data Handling Notes
+
+- The `data/` folder and all `.csv` files are excluded from version control via `.gitignore`.
+- Cleaned CSV data files should never be committed to the repo.
+- This keeps the repo lightweight and secure.
+
+---
+
+## 📝 Running Tests and Scripts
+
+(Include instructions here for running any scripts or tests if applicable)
+
+---
+
+Thank you for participating in the Solar Challenge. 🚀
+
+
+
