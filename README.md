@@ -35,6 +35,17 @@ df_cleaned = clean_missing_values(df_outliers, columns)
 df_cleaned.to_csv('data/benin_clean.csv', index=False)
 ```
 
+The primary goal is to handle solar datasets across several countries, perform exploratory data analysis, and compare solar potential across regions to inform energy strategies.
+
+---
+
+## 🛠 Features
+
+- Python virtual environment setup and dependency management  
+- Data profiling, cleaning, and exploratory data analysis (EDA) for multiple countries  
+- Cross-country solar data comparison with statistical testing  
+- Continuous integration with GitHub Actions for automated environment validation
+
 ---
 
 ## Time Series Analysis
