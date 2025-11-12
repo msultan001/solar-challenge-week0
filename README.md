@@ -12,62 +12,50 @@ It demonstrates environment setup, dependency management, and reproducible devel
 
 ---
 
-## 🧩 Steps to Reproduce the Environment
+## 🧩 Tasks Description
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/msultan001/solar-challenge-week0.git
-   ```
+### Task 1: Git & Environment Setup
 
-2. **Navigate into the project directory**
-   ```bash
-   cd solar-challenge-week0
-   ```
+The goal of Task 1 was to establish a reproducible and collaborative development environment before starting data analysis.  
+Key accomplishments include:
 
-3. **Create a virtual environment**
-   ```bash
-   python -m venv env
-   ```
+- Created the GitHub repository `solar-challenge-week0`.
+- Set up the Python virtual environment (`venv`) and automated dependency management with `requirements.txt`.
+- Added `.gitignore` to exclude data files and temporary files.
+- Developed a GitHub Actions CI workflow to automate environment setup checks on pushes and pull requests.
+- Implemented a clean folder structure separating source code, notebooks, tests, and scripts.
+- Documented the environment setup and usage in `README.md`.
+- Completed multiple meaningful commits following conventional commit messages.
+- Successfully merged `setup-task` branch into `main`, ensuring code review and integrity.
 
-4. **Activate the virtual environment**
-   - **Windows**
-     ```bash
-     env\Scripts\activate
-     ```
-   - **macOS/Linux**
-     ```bash
-     source env/bin/activate
-     ```
+### Task 2: Data Profiling, Cleaning & Exploratory Data Analysis (EDA)
 
-5. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+Task 2 focused on comprehensive profiling and cleaning of solar datasets for each country, preparing them for comparative analysis. Highlights include:
 
+- Created dedicated branches and notebooks for country-specific EDA (e.g., `eda-benin`).
+- Generated summary statistics and missing value reports for numeric solar variables (GHI, DNI, DHI, ModA, ModB, WS, WSgust, Tamb, RH).
+- Detected outliers statistically via Z-score computations, flagging records with |Z| > 3.
+- Cleaned data by imputing median values for missing data and removing extreme outliers.
+- Planned and initiated time-series visualizations, correlation heatmaps, wind rose plots, and bubble charts for detailed insights.
+- Ensured cleaned data export to `.gitignore`d folders to maintain repository cleanliness.
 
----
+### Task 3: Cross-Country Solar Potential Comparison
 
-## 📓 Notebooks Description
+This task synthesizes results for impactful cross-country insights. Main points include:
 
-- **Benin, Sierra Leone, Togo EDA notebooks** (`benin_eda.ipynb`, etc.): Perform exploratory data analysis, cleaning, and visualization on country-specific solar datasets.
-- **compare_countries.ipynb**: Synthesizes cleaned datasets from Benin, Sierra Leone, and Togo to analyze and compare solar potential across countries. Includes visualizations (boxplots, summary tables, and bar charts), statistical testing (ANOVA, Kruskal-Wallis), and key observations to highlight significant differences in solar metrics.
-
-
-## 📁 Data Handling Notes
-
-- The `data/` folder and all `.csv` files are excluded from version control via `.gitignore`.
-- Cleaned CSV data files should never be committed to the repo.
-- This keeps the repo lightweight and secure.
+- Created `compare-countries` branch with `compare_countries.ipynb` notebook.
+- Loaded cleaned datasets from Benin, Sierra Leone, and Togo.
+- Compared key solar irradiance metrics (GHI, DNI, DHI) visually using side-by-side boxplots colored by country.
+- Compiled statistical summaries (mean, median, standard deviation) for comparative evaluation.
+- Performed statistical significance tests (one-way ANOVA, Kruskal–Wallis) on GHI values and reported p-values.
+- Highlighted key observations such as highest solar potential and variability differences.
+- Visualized ranked countries by average GHI, providing actionable insights for solar energy prospects.
 
 ---
 
-## 📝 Running Tests and Scripts
+Thank you for your interest in the Solar Challenge project.  
+Please feel free to explore the notebooks and scripts to further your understanding and contribute improvements.
 
-(Include instructions here for running any scripts or tests if applicable)
-
----
-
-Thank you for participating in the Solar Challenge. 🚀
 
 
 
