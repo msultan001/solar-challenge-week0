@@ -1,14 +1,39 @@
-# ☀️ Solar Challenge Week 0
+# Benin Dataset Analysis
 
-A Python-based project for the Solar Challenge Week 0 task.  
-This repository contains all code, dependencies, and setup instructions needed to reproduce and run the environment locally.
+## Summary Statistics & Missing-Value Report
+- Compute descriptive statistics for all numeric columns:
+```python
+df.describe()
+```
+- Count missing values per column:
+```python
+df.isna().sum()
+```
+- Identify columns with more than 5% null values and flag them for cleaning.
 
 ---
 
-## 📦 Project Overview
+## Outlier Detection & Basic Cleaning
+- Inspect missing values, outliers, or incorrect entries, especially in:
+  - Solar radiation: `GHI`, `DNI`, `DHI`
+  - Sensor readings: `ModA`, `ModB`
+  - Wind data: `WS`, `WSgust`
+- Compute Z-scores for key columns:
+```python
+from scipy.stats import zscore
 
-This project is part of the **Solar Challenge** initiative.  
-It demonstrates environment setup, dependency management, and reproducible development practices using Python virtual environments.
+columns = ['GHI', 'DNI', 'DHI', 'ModA', 'ModB', 'WS', 'WSgust']
+df_outliers = flag_outliers_zscore(df, columns, threshold=3)
+```
+- Flag rows where `|Z| > 3` as outliers.
+- Drop or impute missing values (e.g., median) in key columns:
+```python
+df_cleaned = clean_missing_values(df_outliers, columns)
+```
+- Export cleaned DataFrame (ensure `data/` is in `.gitignore`):
+```python
+df_cleaned.to_csv('data/benin_clean.csv', index=False)
+```
 
 The primary goal is to handle solar datasets across several countries, perform exploratory data analysis, and compare solar potential across regions to inform energy strategies.
 
@@ -23,68 +48,66 @@ The primary goal is to handle solar datasets across several countries, perform e
 
 ---
 
-## 🧩 Steps to Reproduce the Environment
-
-1. **Clone the repository**  
-```bash git clone https://github.com/msultan001/solar-challenge-week0```
-
-2. **Navigate into the project directory**  
-```bash cd solar-challenge-week0```
-
-3. **Create a Python virtual environment**  
-```bash python -m venv venv```
-
-4. **Activate the virtual environment**  
-- On **Windows**:  
-  ```
-  env\Scripts\activate
-  ```  
-- On **macOS/Linux**:  
-  ```
-  source env/bin/activate
-  ```
-
-5. **Install the required dependencies**  
-```bash pip install -r requirements.txt```
-
+## Time Series Analysis
+- Plot line or bar charts of `GHI`, `DNI`, `DHI`, `Tamb` versus `Timestamp`.
+- Observe:
+  - Monthly patterns
+  - Daily trends
+  - Anomalies, e.g., peaks in solar irradiance or temperature fluctuations.
 
 ---
 
-## 📓 Task 1 & 2: Environment Setup, EDA, and Cleaning
-
-- Initialize the repository with `.gitignore` and GitHub Actions CI for environment consistency.  
-- Profile, clean, and analyze solar datasets from each country independently using the EDA notebooks.  
-- Generate reports of missing data, outliers, time series patterns, and correlations.
-
----
-
-## 📊 Task 3: Cross-Country Solar Potential Comparison
-
-**Branch:** `compare-countries`  
-**Notebook:** `compare_countries.ipynb`
-
-- Objective: Synthesize cleaned datasets from Benin, Sierra Leone, and Togo.  
-- Load cleaned CSVs from `data/benin_clean.csv`, `data/sierra_leone_clean.csv`, and `data/togo_clean.csv`.  
-- Visualize boxplots of GHI, DNI, and DHI side-by-side, colored by country for comparison.  
-- Summarize statistical metrics (mean, median, standard deviation) across countries.  
-- Perform one-way ANOVA or Kruskal-Wallis tests on GHI values to assess significance; report p-values.  
-- Highlight key findings on solar irradiance potential and country variations.  
-- Provide a visual ranking of countries by average GHI.  
+## Cleaning Impact
+- Compare pre/post-cleaning averages for sensors:
+```python
+df_cleaned.groupby('cleaning_flag')[['ModA', 'ModB']].mean().plot()
+```
 
 ---
 
-## ⚙️ Continuous Integration (CI)
-
-- Automated GitHub Actions workflows install dependencies and validate the environment on every push and pull request.  
-- Includes unit test runs and static code checks (if implemented).
+## Correlation & Relationship Analysis
+- Heatmap of correlations between solar and sensor data:
+```python
+import seaborn as sns
+sns.heatmap(df_cleaned[['GHI', 'DNI', 'DHI', 'TModA', 'TModB']].corr(), annot=True)
+```
+- Scatter plots for relationships:
+  - `WS`, `WSgust`, `WD` vs. `GHI`
+  - `RH` vs. `Tamb`
+  - `RH` vs. `GHI`
 
 ---
 
-## 🚀 Getting Help
-
-For any issues or questions, please open an issue on the GitHub repository or contact the maintainer via project emails or discussions.
+## Wind & Distribution Analysis
+- Wind rose or radial bar plot for `WS` / `WD`.
+- Histograms for `GHI` and another variable (e.g., `WS`):
+```python
+df_cleaned['GHI'].hist(bins=20)
+df_cleaned['WS'].hist(bins=20)
+```
 
 ---
 
+## Temperature Analysis
+- Examine how `RH` influences temperature (`Tamb`) and solar radiation (`GHI`).
 
-Thank you for exploring the Solar Challenge Week 0 project! 🌞
+---
+
+## Bubble Chart
+- Plot `GHI` vs. `Tamb` with bubble size representing `RH` or `BP`:
+```python
+import matplotlib.pyplot as plt
+
+plt.scatter(df_cleaned['Tamb'], df_cleaned['GHI'], 
+            s=df_cleaned['RH']*0.5, alpha=0.5)
+plt.xlabel('Tamb')
+plt.ylabel('GHI')
+plt.title('GHI vs Tamb (Bubble size = RH)')
+plt.show()
+```
+
+---
+
+**Notes**
+- All data processing and cleaning should be reproducible using the provided scripts.
+- Avoid committing raw or cleaned CSV files; keep `data/
